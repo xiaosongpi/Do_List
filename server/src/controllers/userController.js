@@ -4,7 +4,8 @@ const getAllUsers = async (req, res, next) => {
     try {
         const users = await userService.getAllUsers();
         res.status(200).json({
-            message: 'Users fetch success',
+            success: true,
+            message: 'Users fetched successfully',
             data: users
         });
     } catch (err) {
@@ -17,7 +18,8 @@ const getUserById = async (req, res, next) => {
         const { id } = req.params;
         const user = await userService.getUserById(id);
         res.status(200).json({
-            message: `User with ID ${id} found`,
+            success: true,
+            message: 'User fetched successfully',
             data: user
         });
     } catch (err) {
@@ -30,7 +32,8 @@ const getUserByEmail = async (req, res, next) => {
         const { email } = req.query;
         const user = await userService.getUserByEmail(email);
         res.status(200).json({
-            message: `User with email ${email} found`,
+            success: true,
+            message: 'User fetched successfully',
             data: user
         });
     } catch (err) {
@@ -43,7 +46,8 @@ const getUserByUsername = async (req, res, next) => {
         const { username } = req.query;
         const user = await userService.getUserByUsername(username);
         res.status(200).json({
-            message: `User with username ${username} found`,
+            success: true,
+            message: 'User fetched successfully',
             data: user
         });
     } catch (err) {
@@ -54,10 +58,11 @@ const getUserByUsername = async (req, res, next) => {
 const createUser = async (req, res, next) => {
     try {
         const { username, email, password, passwordConfirm } = req.body;
-        const user = await userService.createUser(username, email, password, passwordConfirm);
-        res.status(200).json({
-            message: 'Success to create account',
-            data: user
+        const newUser = await userService.createUser(username, email, password, passwordConfirm);
+        res.status(201).json({
+            success: true,
+            message: 'User created successfully',
+            data: newUser
         });
     } catch (err) {
         next(err);
@@ -67,10 +72,11 @@ const createUser = async (req, res, next) => {
 const updateUserPassword = async (req, res, next) => {
     try {
         const { email, password, passwordConfirm } = req.body;
-        const user = await userService.updateUserPassword(email, password, passwordConfirm);
+        const updatedUser = await userService.updateUserPassword(email, password, passwordConfirm);
         res.status(200).json({
-            message: 'Success to update password',
-            data: user
+            success: true,
+            message: 'Password updated successfully',
+            data: updatedUser
         });
     } catch (err) {
         next(err);
@@ -80,13 +86,14 @@ const updateUserPassword = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const user = await userService.deleteUser(id);
+        const deletedUser = await userService.deleteUser(id);
         res.status(200).json({
-            message: 'Success to delete account',
-            data: user
+            success: true,
+            message: 'User deleted successfully',
+            data: deletedUser
         });
     } catch (err) {
-        next(err)
+        next(err);
     }
 };
 
