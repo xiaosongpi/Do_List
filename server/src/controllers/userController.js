@@ -27,7 +27,7 @@ const getUserById = async (req, res, next) => {
 
 const getUserByEmail = async (req, res, next) => {
     try {
-        const { email } = req.body;
+        const { email } = req.query;
         const user = userService.getUserByEmail(email);
         res.status(200).json({
             message: `User with email ${email} found`,
@@ -40,7 +40,7 @@ const getUserByEmail = async (req, res, next) => {
 
 const getUserByUsername = async (req, res, next) => {
     try {
-        const { username } = req.body;
+        const { username } = req.query;
         const user = userService.getUserByUsername(username);
         res.status(200).json({
             message: `User with username ${username} found`,
