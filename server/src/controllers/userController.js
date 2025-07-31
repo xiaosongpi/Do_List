@@ -2,7 +2,7 @@ const userService = require('../services/userServices');
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = userService.getAllUsers();
+        const users = await userService.getAllUsers();
         res.status(200).json({
             message: 'Users fetch success',
             data: users
@@ -15,7 +15,7 @@ const getAllUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const user = userService.getUserById(id);
+        const user = await userService.getUserById(id);
         res.status(200).json({
             message: `User with ID ${id} found`,
             data: user
@@ -28,7 +28,7 @@ const getUserById = async (req, res, next) => {
 const getUserByEmail = async (req, res, next) => {
     try {
         const { email } = req.query;
-        const user = userService.getUserByEmail(email);
+        const user = await userService.getUserByEmail(email);
         res.status(200).json({
             message: `User with email ${email} found`,
             data: user
@@ -41,7 +41,7 @@ const getUserByEmail = async (req, res, next) => {
 const getUserByUsername = async (req, res, next) => {
     try {
         const { username } = req.query;
-        const user = userService.getUserByUsername(username);
+        const user = await userService.getUserByUsername(username);
         res.status(200).json({
             message: `User with username ${username} found`,
             data: user
@@ -54,7 +54,7 @@ const getUserByUsername = async (req, res, next) => {
 const createUser = async (req, res, next) => {
     try {
         const { username, email, password, passwordConfirm } = req.body;
-        const user = userService.createUser(username, email, password, passwordConfirm);
+        const user = await userService.createUser(username, email, password, passwordConfirm);
         res.status(200).json({
             message: 'Success to create account',
             data: user
@@ -67,7 +67,7 @@ const createUser = async (req, res, next) => {
 const updateUserPassword = async (req, res, next) => {
     try {
         const { email, password, passwordConfirm } = req.body;
-        const user = userService.updateUserPassword(email, password, passwordConfirm);
+        const user = await userService.updateUserPassword(email, password, passwordConfirm);
         res.status(200).json({
             message: 'Success to update password',
             data: user
@@ -80,7 +80,7 @@ const updateUserPassword = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const user = userService.deleteUser(id);
+        const user = await userService.deleteUser(id);
         res.status(200).json({
             message: 'Success to delete account',
             data: user
