@@ -2,44 +2,50 @@ const CustomError = require('../utils/CustomError');
 const userModel = require('../models/userModels');
 
 const getAllUsers = async () => {
-    const users = await userModel.findAllUsers();
-    if (!users || users.length === 0) {
-        throw new CustomError('There is no users found', 404);
+    const list = await userModel.findAllUsers();
+    if (!list || list.length === 0) {
+        throw new CustomError('No users found', 404);
     }
-    return users;
+    return list;
 };
 
 const getUserById = async (id) => {
     if (!id) {
         throw new CustomError('ID is required', 400);
     }
-    const user = await userModel.findUserById(id);
-    if (!user) {
-        throw new CustomError(`User with ID: ${id}, not found`, 404);
+
+    const detail = await userModel.findUserById(id);
+    if (!detail) {
+        throw new CustomError(`User with ID ${id} not found`, 404);
     }
-    return user;
+
+    return detail;
 };
 
 const getUserByEmail = async (email) => {
     if (!email) {
         throw new CustomError('Email is required', 400);
     }
-    const user = await userModel.findUserByEmail(email);
-    if (!user) {
-        throw new CustomError(`User with email: ${email}, not found`, 404);
+
+    const detail = await userModel.findUserByEmail(email);
+    if (!detail) {
+        throw new CustomError(`User with email ${email} not found`, 404);
     }
-    return user;
+
+    return detail;
 };
 
 const getUserByUsername = async (username) => {
     if (!username) {
         throw new CustomError('Username is required', 400);
     }
-    const user = await userModel.findUserByUsername(username);
-    if (!user) {
-        throw new CustomError(`User with username: ${username}, not found`, 404);
+
+    const detail = await userModel.findUserByUsername(username);
+    if (!detail) {
+        throw new CustomError(`User with username ${username} not found`, 404);
     }
-    return user;
+
+    return detail;
 };
 
 const createUser = async (username, email, password, passwordConfirm) => {
@@ -53,17 +59,18 @@ const createUser = async (username, email, password, passwordConfirm) => {
         throw new CustomError('Password is required', 400);
     }
     if (!passwordConfirm) {
-        throw new CustomError('Password confirm is required', 400);
+        throw new CustomError('Password confirmation is required', 400);
     }
     if (password !== passwordConfirm) {
-        throw new CustomError("Password doesn't match", 400);
+        throw new CustomError('Passwords do not match', 400);
     }
 
-    const user = await userModel.createUser(username, email, password);
-    if (!user) {
+    const result = await userModel.createUser(username, email, password);
+    if (!result) {
         throw new CustomError('Failed to create account', 400);
     }
-    return user;
+
+    return result;
 };
 
 const updateUserPassword = async (email, password, passwordConfirm) => {
@@ -74,28 +81,31 @@ const updateUserPassword = async (email, password, passwordConfirm) => {
         throw new CustomError('Password is required', 400);
     }
     if (!passwordConfirm) {
-        throw new CustomError('Password confirm is required', 400);
+        throw new CustomError('Password confirmation is required', 400);
     }
     if (password !== passwordConfirm) {
-        throw new CustomError("Password doesn't match", 400);
+        throw new CustomError('Passwords do not match', 400);
     }
 
-    const user = await userModel.updateUserByEmail(email, password);
-    if (!user) {
-        throw new CustomError('Failed to update user password', 400);
+    const result = await userModel.updateUserByEmail(email, password);
+    if (!result) {
+        throw new CustomError('Failed to update password', 400);
     }
-    return user;
+
+    return result;
 };
 
 const deleteUser = async (id) => {
     if (!id) {
         throw new CustomError('ID is required', 400);
     }
-    const user = await userModel.deleteUserById(id);
-    if (!user) {
+
+    const result = await userModel.deleteUserById(id);
+    if (!result) {
         throw new CustomError('Failed to delete account', 400);
     }
-    return user;
+
+    return result;
 };
 
 module.exports = {
